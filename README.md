@@ -102,7 +102,7 @@ The current shell configuration:
 
 ### Requirements
 
-- Node.js 22.12.0 or newer
+- Node.js 22.13.0 or newer
 - pnpm 11 or newer
 
 ### Run locally
