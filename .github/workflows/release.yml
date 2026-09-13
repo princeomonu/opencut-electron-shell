@@ -122,7 +122,7 @@ jobs:
           GH_TOKEN: ${{ github.token }}
         run: |
           if [[ "${GITHUB_REF_NAME}" == *-* ]]; then
-            gh release create "$GITHUB_REF_NAME" release/* --generate-notes --prerelease
+            gh release create "$GITHUB_REF_NAME" release/* --repo "$GITHUB_REPOSITORY" --generate-notes --prerelease
           else
-            gh release create "$GITHUB_REF_NAME" release/* --generate-notes
+            gh release create "$GITHUB_REF_NAME" release/* --repo "$GITHUB_REPOSITORY" --generate-notes
           fi
