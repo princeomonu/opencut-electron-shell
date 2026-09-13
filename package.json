@@ -1,0 +1,55 @@
+{
+  "name": "opencut-electron-wrapper",
+  "version": "0.3.0",
+  "private": true,
+  "description": "Unofficial Chromium desktop shell for OpenCut with persistent IndexedDB and OPFS storage",
+  "author": {
+    "name": "Omonu Prince Itanyi",
+    "email": "hello@princeomonu.com"
+  },
+  "homepage": "https://github.com/princeomonu/opencode-electron-wrapper",
+  "desktopName": "opencut-desktop",
+  "license": "MIT",
+  "main": "main.js",
+  "scripts": {
+    "start": "electron .",
+    "dist": "electron-builder --linux AppImage deb",
+    "dist:appimage": "electron-builder --linux AppImage",
+    "dist:deb": "electron-builder --linux deb"
+  },
+  "devDependencies": {
+    "electron": "44.3.0",
+    "electron-builder": "26.16.1"
+  },
+  "build": {
+    "appId": "com.opencut.desktop",
+    "productName": "OpenCut Desktop",
+    "artifactName": "OpenCut-Desktop-${version}-${arch}.${ext}",
+    "asar": true,
+    "files": [
+      "main.js",
+      "package.json",
+      "build/icon.png"
+    ],
+    "directories": {
+      "buildResources": "build",
+      "output": "dist"
+    },
+    "linux": {
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "AudioVideo",
+      "icon": "build/icon.png",
+      "executableName": "opencut-desktop",
+      "syncDesktopName": true,
+      "synopsis": "OpenCut video editor desktop shell",
+      "description": "A Chromium desktop shell for OpenCut with persistent IndexedDB and OPFS storage."
+    },
+    "deb": {
+      "priority": "optional",
+      "maintainer": "Omonu Prince Itanyi <hello@princeomonu.com>"
+    }
+  }
+}
