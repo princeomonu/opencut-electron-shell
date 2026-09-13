@@ -26,7 +26,10 @@
     "start": "electron .",
     "dist": "electron-builder --linux AppImage deb",
     "dist:appimage": "electron-builder --linux AppImage",
-    "dist:deb": "electron-builder --linux deb"
+    "dist:deb": "electron-builder --linux deb",
+    "dist:linux": "electron-builder --linux AppImage deb",
+    "dist:windows": "electron-builder --win nsis zip",
+    "dist:mac": "electron-builder --mac dmg zip"
   },
   "devDependencies": {
     "electron": "44.3.0",
@@ -35,7 +38,7 @@
   "build": {
     "appId": "com.opencut.desktop",
     "productName": "OpenCut Electron Shell",
-    "artifactName": "OpenCut-Electron-Shell-${version}-${arch}.${ext}",
+    "artifactName": "OpenCut-Electron-Shell-${version}-${os}-${arch}.${ext}",
     "asar": true,
     "files": [
       "main.js",
@@ -61,6 +64,25 @@
     "deb": {
       "priority": "optional",
       "maintainer": "Omonu Prince Itanyi <hello@princeomonu.com>"
+    },
+    "win": {
+      "target": [
+        "nsis",
+        "zip"
+      ],
+      "icon": "build/icon.ico"
+    },
+    "nsis": {
+      "oneClick": false,
+      "allowToChangeInstallationDirectory": true
+    },
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "category": "public.app-category.video",
+      "icon": "build/icon.icns"
     }
   }
 }

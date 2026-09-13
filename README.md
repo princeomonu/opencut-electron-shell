@@ -18,11 +18,12 @@ It opens the hosted OpenCut editor in a dedicated desktop window and provides a 
 
 | Platform | Packages | Status |
 | --- | --- | --- |
-| Linux x64 | AppImage, Debian package (`.deb`) | Supported |
-| Windows x64 | Planned | Not yet released |
-| macOS (Apple Silicon and Intel) | Planned | Not yet released |
+| Linux x64 | AppImage, Debian package (`.deb`) | Locally tested; released from version tags |
+| Windows x64 | NSIS installer (`.exe`), portable ZIP | Beta; released from version tags |
+| macOS Intel | DMG, ZIP | Beta; released from version tags |
+| macOS Apple Silicon | DMG, ZIP | Beta; released from version tags |
 
-Only download releases from the [GitHub Releases](https://github.com/princeomonu/opencut-electron-shell/releases) page. Current Linux builds are community packages and are not repository-signed.
+All packages are unsigned community builds. Download them only from the [GitHub Releases](https://github.com/princeomonu/opencut-electron-shell/releases) page and verify the included `SHA256SUMS` file before bypassing an operating-system warning.
 
 ## Install on Linux
 
@@ -47,6 +48,39 @@ chmod +x OpenCut-Electron-Shell-*-x86_64.AppImage
 ./OpenCut-Electron-Shell-*-x86_64.AppImage
 ```
 
+## Install on Windows
+
+Download the x64 `.exe` installer from GitHub Releases and run it. The installer lets you choose the destination directory. A portable `.zip` is also available when you do not want an installed application.
+
+Windows may show a SmartScreen warning because these community builds are unsigned. Confirm that the file came from this repository and matches `SHA256SUMS` before choosing **More info** then **Run anyway**.
+
+## Install on macOS
+
+Download the DMG for your processor from GitHub Releases:
+
+- Apple Silicon: `arm64`
+- Intel: `x64`
+
+Open the DMG and drag **OpenCut Electron Shell** into Applications. macOS may block the first launch because the application is unsigned. After confirming the download and checksum, use Finder to control-click the app, select **Open**, then select **Open** again. Do not disable Gatekeeper system-wide.
+
+## Verify a download
+
+Each release includes a `SHA256SUMS` file. Download it into the same folder as the application artifact, then run one of these commands:
+
+```bash
+# Linux
+sha256sum --check SHA256SUMS
+
+# macOS
+shasum -a 256 -c SHA256SUMS
+```
+
+On Windows PowerShell, compare the result of the following command to the matching `SHA256SUMS` entry:
+
+```powershell
+Get-FileHash .\OpenCut-Electron-Shell-*.exe -Algorithm SHA256
+```
+
 ## Your projects and data
 
 The shell stores OpenCut data in a dedicated Electron profile named `OpenCut Desktop`. The profile name remains stable across project renames so existing users retain access to their saved browser storage.
@@ -68,7 +102,7 @@ The current shell configuration:
 
 ### Requirements
 
-- Node.js 22 or newer
+- Node.js 22.12.0 or newer
 - pnpm 11 or newer
 
 ### Run locally
@@ -86,8 +120,22 @@ pnpm dist
 
 Artifacts are written to `dist/`:
 
-- `OpenCut-Electron-Shell-<version>-x86_64.AppImage`
-- `OpenCut-Electron-Shell-<version>-amd64.deb`
+- `OpenCut-Electron-Shell-<version>-linux-x64.AppImage`
+- `OpenCut-Electron-Shell-<version>-linux-x64.deb`
+
+### Build other platforms
+
+Build on the target operating system:
+
+```bash
+# Windows x64
+pnpm dist:windows
+
+# macOS
+pnpm dist:mac
+```
+
+The tag-triggered GitHub Actions workflow builds all supported platforms on native runners and publishes the artifacts in one GitHub Release. See [docs/RELEASING.md](docs/RELEASING.md) for the release procedure.
 
 ## Contributing
 
