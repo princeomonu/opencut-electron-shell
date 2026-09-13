@@ -1,16 +1,27 @@
 {
-  "name": "opencut-electron-wrapper",
+  "name": "opencut-electron-shell",
   "version": "0.3.0",
   "private": true,
-  "description": "Unofficial Chromium desktop shell for OpenCut with persistent IndexedDB and OPFS storage",
+  "description": "Unofficial Electron desktop shell for OpenCut with persistent browser storage",
   "author": {
     "name": "Omonu Prince Itanyi",
     "email": "hello@princeomonu.com"
   },
-  "homepage": "https://github.com/princeomonu/opencode-electron-wrapper",
-  "desktopName": "opencut-desktop",
+  "homepage": "https://github.com/princeomonu/opencut-electron-shell",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/princeomonu/opencut-electron-shell.git"
+  },
+  "bugs": {
+    "url": "https://github.com/princeomonu/opencut-electron-shell/issues"
+  },
+  "desktopName": "opencut-electron-shell",
   "license": "MIT",
   "main": "main.js",
+  "packageManager": "pnpm@11.20.0",
+  "engines": {
+    "node": ">=22.12.0"
+  },
   "scripts": {
     "start": "electron .",
     "dist": "electron-builder --linux AppImage deb",
@@ -23,8 +34,8 @@
   },
   "build": {
     "appId": "com.opencut.desktop",
-    "productName": "OpenCut Desktop",
-    "artifactName": "OpenCut-Desktop-${version}-${arch}.${ext}",
+    "productName": "OpenCut Electron Shell",
+    "artifactName": "OpenCut-Electron-Shell-${version}-${arch}.${ext}",
     "asar": true,
     "files": [
       "main.js",
@@ -42,10 +53,10 @@
       ],
       "category": "AudioVideo",
       "icon": "build/icon.png",
-      "executableName": "opencut-desktop",
+      "executableName": "opencut-electron-shell",
       "syncDesktopName": true,
-      "synopsis": "OpenCut video editor desktop shell",
-      "description": "A Chromium desktop shell for OpenCut with persistent IndexedDB and OPFS storage."
+      "synopsis": "Unofficial Electron desktop shell for OpenCut",
+      "description": "An unofficial Electron desktop shell for OpenCut with persistent IndexedDB and OPFS storage."
     },
     "deb": {
       "priority": "optional",

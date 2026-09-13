@@ -4,10 +4,10 @@ set -euo pipefail
 cd "$(dirname "$0")/.."
 
 echo "==> Installing dependencies"
-npm install
+pnpm install --frozen-lockfile
 
 echo "==> Building AppImage and Debian package"
-npm run dist
+pnpm dist
 
 echo
 echo "Build complete. Artifacts:"

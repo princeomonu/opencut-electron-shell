@@ -19,7 +19,7 @@ function isOpenCutUrl(rawUrl) {
 
 function createWindow() {
   const win = new BrowserWindow({
-    title: 'OpenCut Desktop',
+    title: 'OpenCut Electron Shell',
     width: 1440,
     height: 900,
     minWidth: 900,

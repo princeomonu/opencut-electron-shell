@@ -1,91 +1,109 @@
-# OpenCut Desktop
+# OpenCut Electron Shell
 
-A small Electron/Chromium desktop shell for **https://opencut.app**.
+An unofficial, community-maintained Electron shell for [OpenCut](https://opencut.app).
 
-This build exists to give OpenCut a dedicated Chromium profile with working IndexedDB, OPFS, StorageManager, and persistent browser storage on Linux.
+It opens the hosted OpenCut editor in a dedicated desktop window and provides a persistent Electron browser profile for IndexedDB, OPFS, and related browser storage.
 
-## Your existing projects stay in place
+> [!IMPORTANT]
+> This project is not affiliated with, endorsed by, or maintained by OpenCut. It loads the hosted OpenCut web application; it does not bundle the OpenCut editor or provide a separate editing backend.
 
-The development shell and packaged build deliberately use the same Electron profile:
+## Why use it?
 
-```text
-OpenCut Desktop
-```
+- Launch OpenCut from a desktop application window.
+- Keep OpenCut storage in a dedicated Electron profile instead of a normal browser profile.
+- Use persistent browser storage required by web-based editing workflows.
+- Open external links in your default browser instead of replacing the editor window.
 
-and the same persistent Chromium partition:
+## Platform support
 
-```text
-persist:opencut
-```
+| Platform | Packages | Status |
+| --- | --- | --- |
+| Linux x64 | AppImage, Debian package (`.deb`) | Supported |
+| Windows x64 | Planned | Not yet released |
+| macOS (Apple Silicon and Intel) | Planned | Not yet released |
 
-Do **not** rename the profile in `main.js` after you start storing projects unless you intentionally want a fresh storage area.
+Only download releases from the [GitHub Releases](https://github.com/princeomonu/opencut-electron-shell/releases) page. Current Linux builds are community packages and are not repository-signed.
 
-## Run from source
+## Install on Linux
 
-```bash
-npm install
-npm start
-```
+Download an artifact from the latest GitHub Release.
 
-## Verify storage
-
-Open DevTools with `Ctrl+Shift+I` and run:
-
-```js
-await navigator.storage.estimate()
-await navigator.storage.getDirectory()
-await navigator.storage.persisted()
-```
-
-The last expression should return `true` on the working setup.
-
-## Build Linux installers
+### Debian and Ubuntu
 
 ```bash
-npm install
-npm run dist
+sudo apt install ./OpenCut-Electron-Shell-*-amd64.deb
 ```
 
-Artifacts are written to `dist/`:
+Launch it from your application menu or run:
 
-- `OpenCut-Desktop-0.3.0-x86_64.AppImage` (exact architecture label can vary)
-- `OpenCut-Desktop-0.3.0-amd64.deb` (exact architecture label can vary)
+```bash
+opencut-electron-shell
+```
 
 ### AppImage
 
 ```bash
-chmod +x dist/*.AppImage
-./dist/*.AppImage
+chmod +x OpenCut-Electron-Shell-*-x86_64.AppImage
+./OpenCut-Electron-Shell-*-x86_64.AppImage
 ```
 
-You can keep the AppImage anywhere you like and launch it directly.
+## Your projects and data
 
-### Debian / Ubuntu `.deb`
+The shell stores OpenCut data in a dedicated Electron profile named `OpenCut Desktop`. The profile name remains stable across project renames so existing users retain access to their saved browser storage.
+
+Back up or export important projects before clearing application data or deleting the Electron profile. Removing that profile can permanently remove locally stored OpenCut data.
+
+## How it works
+
+The shell loads `https://opencut.app` in a Chromium window. The hosted application can change independently of this repository and its releases.
+
+The current shell configuration:
+
+- Disables Node.js integration.
+- Enables context isolation, Electron sandboxing, and web security.
+- Uses a persistent Chromium partition for OpenCut data.
+- Keeps OpenCut navigation in the shell and sends external HTTP(S) links to the default browser.
+
+## Development
+
+### Requirements
+
+- Node.js 22 or newer
+- pnpm 11 or newer
+
+### Run locally
 
 ```bash
-sudo apt install ./dist/*.deb
+pnpm install --frozen-lockfile
+pnpm start
 ```
 
-This registers OpenCut Desktop with the Linux application menu and uses the packaged OpenCut icon.
+### Build Linux packages
 
-## Storage location
+```bash
+pnpm dist
+```
 
-Electron stores the profile under your normal Linux application-data directory, with the explicit profile name `OpenCut Desktop`. The application does not share Brave's profile or storage quota bucket.
+Artifacts are written to `dist/`:
 
-Deleting that profile directory can delete the OpenCut data stored inside this shell, so back up important projects/exports before manually clearing application data.
+- `OpenCut-Electron-Shell-<version>-x86_64.AppImage`
+- `OpenCut-Electron-Shell-<version>-amd64.deb`
 
-## Security model
+## Contributing
 
-The hosted OpenCut site is sandboxed in Chromium with:
+Contributions are welcome. Useful areas include:
 
-- Node integration disabled
-- context isolation enabled
-- Electron sandbox enabled
-- web security enabled
-- no native Electron APIs exposed to the hosted page
+- Testing installation and storage behavior across Linux distributions.
+- Adding and testing Windows or macOS packaging.
+- Improving Electron security hardening.
+- Fixing packaging, accessibility, documentation, or platform-specific issues.
 
-External web links open in your normal browser.
+Please read [CONTRIBUTING.md](CONTRIBUTING.md) before opening a pull request. For bugs and feature ideas, use the [issue tracker](https://github.com/princeomonu/opencut-electron-shell/issues).
 
-## Branding
+## Updates
 
-The packaged icon comes from the official OpenCut open-source repository's `brand/marks/icon.svg`. This shell itself is unofficial and is not an official OpenCut desktop release.
+The shell does not update itself. Download and install newer versions manually from [GitHub Releases](https://github.com/princeomonu/opencut-electron-shell/releases).
+
+## License and attribution
+
+This Electron shell is licensed under the [MIT License](LICENSE). OpenCut and its branding belong to their respective owners. See [NOTICE.md](NOTICE.md) for attribution information.
