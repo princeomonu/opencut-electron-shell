@@ -43,14 +43,14 @@ jobs:
         include:
           - name: Linux x64
             runner: ubuntu-24.04
-            command: pnpm exec electron-builder --linux AppImage deb --x64
+            command: pnpm exec electron-builder --linux AppImage deb --x64 --publish never
             artifact: linux-x64
             files: |
               dist/*.AppImage
               dist/*.deb
           - name: Windows x64
             runner: windows-2022
-            command: pnpm exec electron-builder --win nsis zip --x64
+            command: pnpm exec electron-builder --win nsis zip --x64 --publish never
             artifact: windows-x64
             files: |
               dist/*.exe
@@ -58,8 +58,8 @@ jobs:
           - name: macOS x64 and arm64
             runner: macos-14
             command: >
-              pnpm exec electron-builder --mac dmg zip --x64 &&
-              pnpm exec electron-builder --mac dmg zip --arm64
+              pnpm exec electron-builder --mac dmg zip --x64 --publish never &&
+              pnpm exec electron-builder --mac dmg zip --arm64 --publish never
             artifact: macos
             files: |
               dist/*.dmg
